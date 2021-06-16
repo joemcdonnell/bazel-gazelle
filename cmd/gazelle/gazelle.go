@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+    "time"
 
 	"github.com/bazelbuild/bazel-gazelle/config"
 	"github.com/bazelbuild/bazel-gazelle/language"
@@ -58,7 +59,7 @@ func (cmd command) String() string {
 func main() {
 	log.SetPrefix("gazelle: ")
 	log.SetFlags(0) // don't print timestamps
-
+    start := time.Now()
 	var wd string
 	if wsDir := os.Getenv("BUILD_WORKSPACE_DIRECTORY"); wsDir != "" {
 		wd = wsDir
@@ -76,6 +77,8 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+    end := time.Now()
+    log.Print("total time: " + end.Sub(start).String())
 }
 
 func run(wd string, args []string) error {
